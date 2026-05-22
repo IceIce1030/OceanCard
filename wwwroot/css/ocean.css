@@ -738,4 +738,74 @@ body {
     .filter-bar { gap: 8px; }
     .filter-search { min-width: 100%; }
     .filter-bar select { flex: 1; }
+}/* ---------- 對戰試算 ---------- */
+.battle-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 18px 0;
+}
+.battle-pick { flex: 1; min-width: 200px; }
+.battle-pick label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+.battle-pick select {
+    width: 100%;
+    padding: 9px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: #06314d;
+    color: var(--text-light);
+    font-size: 14px;
+}
+.battle-vs {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--glow-teal);
+    padding-bottom: 8px;
+}
+.battle-result {
+    background: var(--panel-bg);
+    border: 1px solid rgba(120,230,220,0.25);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 20px;
+}
+.attack-line {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 14px;
+    line-height: 1.9;
+}
+.attack-line strong { color: var(--glow-teal); }
+.relation {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.1);
+    font-size: 12px;
+}
+.lethal {
+    color: #ff9a9a;
+    font-weight: 700;
+    margin-left: 6px;
+}
+.battle-verdict {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    background: rgba(78,205,196,0.12);
+    text-align: center;
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+    .battle-form { gap: 10px; }
+    .battle-pick { min-width: 100%; }
+    .battle-vs { width: 100%; text-align: center; }
 }

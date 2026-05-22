@@ -1,0 +1,113 @@
+@page
+@model OceanCard.Pages.Battle.IndexModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = "對戰試算";
+}
+
+@functions {
+    string ElementName(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
+}
+
+<a class="back-link" href="/Index">← 回首頁</a>
+<h1>對戰試算</h1>
+<p style="color:var(--text-muted); font-size:14px;">
+    選兩張卡,看看屬性相克下誰打得贏。技能目前僅供參考,不參與計算。
+</p>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="login-error">@Model.ErrorMessage</div>
+}
+
+<form method="post" class="battle-form">
+    <div class="battle-pick">
+        <label>攻方卡牌</label>
+        <select name="AttackerId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var c in Model.AllCards)
+            {
+                <option value="@c.Id" selected="@(Model.AttackerId == c.Id)">
+                      @(c.Name + " - " + ElementName(c.Element) + " 攻" + c.Attack + " 血" + c.Health)
+                  </option>
+            }
+        </select>
+    </div>
+
+    <div class="battle-vs">VS</div>
+
+    <div class="battle-pick">
+        <label>守方卡牌</label>
+        <select name="DefenderId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var c in Model.AllCards)
+            {
+                <option value="@c.Id" selected="@(Model.DefenderId == c.Id)">
+                      @(c.Name + " - " + ElementName(c.Element) + "守" + c.Attack + " 血" + c.Health)
+                  </option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="filter-btn">開戰</button>
+</form>
+
+@if (Model.AtoB != null && Model.BtoA != null)
+{
+    <div class="battle-result">
+        <h3>戰鬥結果</h3>
+
+        <div class="attack-line">
+            <strong>@Model.AtoB.Attacker.Name</strong> 攻擊
+            <strong>@Model.AtoB.Defender.Name</strong>
+            <span class="relation">@Model.AtoB.Relation</span>
+            <div>
+                傷害 @Model.AtoB.Damage
+                ,@Model.AtoB.Defender.Name 剩餘生命 @Model.AtoB.DefenderHealthAfter
+                @if (Model.AtoB.IsLethal) { <span class="lethal">擊倒!</span> }
+            </div>
+        </div>
+
+        <div class="attack-line">
+            <strong>@Model.BtoA.Attacker.Name</strong> 攻擊
+            <strong>@Model.BtoA.Defender.Name</strong>
+            <span class="relation">@Model.BtoA.Relation</span>
+            <div>
+                傷害 @Model.BtoA.Damage
+                ,@Model.BtoA.Defender.Name 剩餘生命 @Model.BtoA.DefenderHealthAfter
+                @if (Model.BtoA.IsLethal) { <span class="lethal">擊倒!</span> }
+            </div>
+        </div>
+
+        <div class="battle-verdict">
+            @{
+                var aWins = Model.AtoB.IsLethal;
+                var bWins = Model.BtoA.IsLethal;
+            }
+            @if (aWins && !bWins)
+            {
+                <span>@Model.AtoB.Attacker.Name 勝!一擊解決對手。</span>
+            }
+            else if (bWins && !aWins)
+            {
+                <span>@Model.BtoA.Attacker.Name 勝!一擊解決對手。</span>
+            }
+            else if (aWins && bWins)
+            {
+                <span>同歸於盡,兩邊都被打倒了。</span>
+            }
+            else
+            {
+                <span>互有傷害,但都還站著。比比看誰剩的血多。</span>
+            }
+        </div>
+    </div>
+}

@@ -8,6 +8,8 @@ builder.Services.AddRazorPages();
 // === 第三階段新增:註冊 CardRepository ===
 builder.Services.AddScoped<OceanCard.Repositories.CardRepository>();
 
+builder.Services.AddScoped<OceanCard.Services.BattleService>();
+
 // === 第二階段:Cookie 驗證 ===
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
