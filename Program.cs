@@ -10,6 +10,9 @@ builder.Services.AddScoped<OceanCard.Repositories.CardRepository>();
 
 builder.Services.AddScoped<OceanCard.Services.BattleService>();
 
+// === 牌組系統:註冊 DeckRepository ===
+builder.Services.AddScoped<OceanCard.Repositories.DeckRepository>();
+
 // === 第二階段:Cookie 驗證 ===
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

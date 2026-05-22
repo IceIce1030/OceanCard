@@ -31,6 +31,19 @@ public static class DatabaseInitializer
                 CardId  INTEGER NOT NULL,
                 FOREIGN KEY (CardId) REFERENCES Cards(Id) ON DELETE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS Decks (
+                Id   INTEGER PRIMARY KEY AUTOINCREMENT,
+                Name TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS DeckCards (
+                Id     INTEGER PRIMARY KEY AUTOINCREMENT,
+                DeckId INTEGER NOT NULL,
+                CardId INTEGER NOT NULL,
+                FOREIGN KEY (DeckId) REFERENCES Decks(Id) ON DELETE CASCADE,
+                FOREIGN KEY (CardId) REFERENCES Cards(Id) ON DELETE CASCADE
+            );
         ");
 
         // 種子資料:只在完全沒有卡牌時才塞
@@ -53,7 +66,7 @@ public static class DatabaseInitializer
                 Element = 3,   // DeepSea
                 Rarity = 3,    // Legendary
                 Cost = 7, Attack = 8, Health = 6,
-                ImagePath = "images/cards/deep_shark.png"
+                ImagePath = ""
             });
 
         conn.Execute(@"
@@ -77,7 +90,7 @@ public static class DatabaseInitializer
                 Element = 1,   // Reef
                 Rarity = 2,    // Epic
                 Cost = 4, Attack = 3, Health = 7,
-                ImagePath = "images/cards/coral_guard.png"
+                ImagePath = ""
             });
 
         conn.Execute(@"
@@ -97,7 +110,7 @@ public static class DatabaseInitializer
                 Element = 2,   // Current
                 Rarity = 1,    // Rare
                 Cost = 3, Attack = 4, Health = 2,
-                ImagePath = "images/cards/current_ranger.png"
+                ImagePath = ""
             });
 
         conn.Execute(@"
