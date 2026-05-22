@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - OceanCard</title>
+    <link rel="stylesheet" href="~/css/ocean.css" />
+</head>
+<body>
+    <div class="parallax-layer" id="bgParallax">
+        <div class="light-beams">
+            <span class="beam"></span>
+            <span class="beam b2"></span>
+            <span class="beam b3"></span>
+        </div>
+        <div class="bubbles">
+            <span class="bubble" style="left:8%;  width:18px; height:18px; animation-duration:14s;"></span>
+            <span class="bubble" style="left:22%; width:10px; height:10px; animation-duration:11s; animation-delay:3s;"></span>
+            <span class="bubble" style="left:38%; width:24px; height:24px; animation-duration:18s; animation-delay:1s;"></span>
+            <span class="bubble" style="left:68%; width:20px; height:20px; animation-duration:16s; animation-delay:2s;"></span>
+            <span class="bubble" style="left:92%; width:22px; height:22px; animation-duration:17s; animation-delay:4s;"></span>
+            <span class="bubble-hesitant" style="left:55%; width:14px; height:14px; animation-delay:5s;"></span>
+            <span class="fish" style="left:78%; animation-delay:7s;">🐟</span>
+        </div>
+    </div>
+
+    <div class="page">
+        @RenderBody()
+    </div>
+
+    <script>
+        // 滑鼠視差:背景隨游標輕微位移,做出深度感
+        (function () {
+            var layer = document.getElementById('bgParallax');
+            if (!layer || window.matchMedia('(max-width: 480px)').matches) return;
+            window.addEventListener('mousemove', function (e) {
+                var x = (e.clientX / window.innerWidth - 0.5) * 18;
+                var y = (e.clientY / window.innerHeight - 0.5) * 18;
+                layer.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+            });
+        })();
+    </script>
+</body>
+</html>

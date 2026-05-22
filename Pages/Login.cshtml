@@ -1,0 +1,38 @@
+@page
+@model OceanCard.Pages.LoginModel
+@{
+    Layout = null;
+    ViewData["Title"] = "進入 OceanCard";
+}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>進入 OceanCard</title>
+    <link rel="stylesheet" href="~/css/ocean.css" />
+</head>
+<body>
+    <div class="bubbles">
+        <span class="bubble" style="left:12%; width:16px; height:16px; animation-duration:14s;"></span>
+        <span class="bubble" style="left:34%; width:22px; height:22px; animation-duration:18s; animation-delay:2s;"></span>
+        <span class="bubble" style="left:84%; width:20px; height:20px; animation-duration:16s; animation-delay:1s;"></span>
+        <span class="bubble-hesitant" style="left:60%; width:13px; height:13px; animation-delay:3s;"></span>
+        <span class="fish" style="left:46%; animation-delay:6s;">🐟</span>
+    </div>
+
+    <div class="login-wrap">
+        <div class="login-box">
+            <span class="brand">OCEANCARD</span>
+            <form method="post">
+                <input type="password" name="password" placeholder="請輸入通行密碼" autofocus />
+                <button type="submit">潛入深海</button>
+                @if (Model.ErrorMessage != null)
+                {
+                    <div class="login-error">@Model.ErrorMessage</div>
+                }
+            </form>
+        </div>
+    </div>
+</body>
+</html>

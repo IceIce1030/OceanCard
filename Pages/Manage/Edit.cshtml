@@ -1,0 +1,96 @@
+@page "{id:int?}"
+@model OceanCard.Pages.Manage.EditModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = Model.IsEdit ? "編輯卡牌" : "新增卡牌";
+}
+
+<a class="back-link" href="/Manage/Index">← 回卡牌管理</a>
+<h1>@(Model.IsEdit ? "編輯卡牌" : "新增卡牌")</h1>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="login-error">@Model.ErrorMessage</div>
+}
+
+<form method="post" class="card-form">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <label>卡牌名稱</label>
+    <input type="text" name="Name" value="@Model.Name" />
+
+    <label>描述</label>
+    <textarea name="Description" rows="2">@Model.Description</textarea>
+
+    <div class="form-row">
+        <div>
+            <label>屬性</label>
+            <select name="Element">
+                @foreach (OceanElement e in Enum.GetValues<OceanElement>())
+                {
+                    <option value="@e" selected="@(e == Model.Element)">@e</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>稀有度</label>
+            <select name="Rarity">
+                @foreach (Rarity r in Enum.GetValues<Rarity>())
+                {
+                    <option value="@r" selected="@(r == Model.Rarity)">@r</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div><label>費用</label><input type="number" name="Cost" value="@Model.Cost" /></div>
+        <div><label>攻擊</label><input type="number" name="Attack" value="@Model.Attack" /></div>
+        <div><label>生命</label><input type="number" name="Health" value="@Model.Health" /></div>
+    </div>
+
+    <label>技能</label>
+    <div id="skillList">
+        @for (int i = 0; i < Model.SkillNames.Count; i++)
+        {
+            <div class="skill-row">
+                <input type="text" name="SkillNames" placeholder="技能名稱"
+                       value="@Model.SkillNames[i]" />
+                <input type="text" name="SkillEffects" placeholder="技能效果"
+                       value="@(i < Model.SkillEffects.Count ? Model.SkillEffects[i] : "")" />
+                <button type="button" class="link-danger" onclick="removeSkill(this)">移除</button>
+            </div>
+        }
+    </div>
+    <button type="button" class="add-skill-btn" onclick="addSkill()">+ 新增技能</button>
+    <label>卡牌圖示(選填,留空則用屬性預設)</label>
+    <input type="text" name="Icon" id="iconInput" value="@Model.Icon"
+           placeholder="點下方挑選,或自己貼一個 emoji" />
+    <div class="icon-picker">
+        @foreach (var emoji in new[] { "🦈","🐙","🐡","🐠","🐟","🦀","🦑","🐚","🪸","🌊","🐋","🐬","⭐","🔱","💧" })
+        {
+            <button type="button" class="icon-option"
+                    onclick="document.getElementById('iconInput').value='@emoji'">@emoji</button>
+        }
+    </div>
+    <div style="margin-top:20px;">
+        <button type="submit" class="enter-btn">儲存</button>
+    </div>
+</form>
+
+<script>
+    // 動態新增一列技能
+    function addSkill() {
+        var row = document.createElement('div');
+        row.className = 'skill-row';
+        row.innerHTML =
+            '<input type="text" name="SkillNames" placeholder="技能名稱" />' +
+            '<input type="text" name="SkillEffects" placeholder="技能效果" />' +
+            '<button type="button" class="link-danger" onclick="removeSkill(this)">移除</button>';
+        document.getElementById('skillList').appendChild(row);
+    }
+    // 移除一列技能
+    function removeSkill(btn) {
+        btn.parentElement.remove();
+    }
+</script>

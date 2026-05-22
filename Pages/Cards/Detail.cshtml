@@ -1,0 +1,85 @@
+﻿@page "{id:int}"
+@model OceanCard.Pages.Cards.DetailModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = Model.Card!.Name;
+}
+
+@functions {
+    string ElementClass(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "el-shallow",
+        OceanElement.Reef    => "el-reef",
+        OceanElement.Current => "el-current",
+        OceanElement.DeepSea => "el-deepsea",
+        OceanElement.Abyss   => "el-abyss",
+        _ => "el-deepsea"
+    };
+    string ElementIcon(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "🐚",
+        OceanElement.Reef    => "🪸",
+        OceanElement.Current => "🌊",
+        OceanElement.DeepSea => "🦈",
+        OceanElement.Abyss   => "🐙",
+        _ => "🐟"
+    };
+    string ElementName(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
+    string RarityClass(Rarity r) => r switch
+    {
+        Rarity.Common    => "rar-common",
+        Rarity.Rare      => "rar-rare",
+        Rarity.Epic      => "rar-epic",
+        Rarity.Legendary => "rar-legendary",
+        _ => "rar-common"
+    };
+    string RarityName(Rarity r) => r switch
+    {
+        Rarity.Common    => "普通",
+        Rarity.Rare      => "稀有",
+        Rarity.Epic      => "史詩",
+        Rarity.Legendary => "傳說",
+        _ => "普通"
+    };
+    // 卡片實際顯示的圖示:優先用卡牌自選的,沒有才用屬性預設
+    string CardIcon(Card c) =>
+        string.IsNullOrWhiteSpace(c.ImagePath) ? ElementIcon(c.Element) : c.ImagePath;
+}
+
+<a class="back-link" href="/Cards/Index">← 回圖鑑</a>
+
+<div class="detail-panel">
+    <div class="detail-art @ElementClass(Model.Card!.Element)">
+        @CardIcon(Model.Card)
+    </div>
+    <h1>@Model.Card.Name</h1>
+    <div class="detail-desc">@Model.Card.Description</div>
+    <div class="detail-stats">
+        屬性:@ElementName(Model.Card.Element)
+        ｜ 稀有度:<span class="rarity-tag @RarityClass(Model.Card.Rarity)">@RarityName(Model.Card.Rarity)</span><br />
+        費用 @Model.Card.Cost ｜ 攻擊 @Model.Card.Attack ｜ 生命 @Model.Card.Health
+    </div>
+    <h3>技能</h3>
+    @if (Model.Card.Skills.Count == 0)
+    {
+        <div class="skill-effect">這張卡還沒有技能。</div>
+    }
+    else
+    {
+        @foreach (var skill in Model.Card.Skills)
+        {
+            <div class="skill-item">
+                <div class="skill-name">@skill.Name</div>
+                <div class="skill-effect">@skill.Effect</div>
+            </div>
+        }
+    }
+</div>

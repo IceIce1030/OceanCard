@@ -1,0 +1,28 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using OceanCard.Models;
+using OceanCard.Repositories;
+
+namespace OceanCard.Pages.Cards;
+
+[Authorize]
+public class IndexModel : PageModel
+{
+    private readonly CardRepository _repo;
+
+    public IndexModel(CardRepository repo) => _repo = repo;
+
+    public List<Card> Cards { get; set; } = new();
+
+    // 從網址查詢字串接收篩選條件
+    [BindProperty(SupportsGet = true)] public string? Keyword { get; set; }
+    [BindProperty(SupportsGet = true)] public OceanElement? Element { get; set; }
+    [BindProperty(SupportsGet = true)] public Rarity? Rarity { get; set; }
+    [BindProperty(SupportsGet = true)] public string? Sort { get; set; }
+
+    public async Task OnGetAsync()
+    {
+        Cards = await _repo.SearchAsync(Keyword, Element, Rarity, Sort);
+    }
+}

@@ -1,0 +1,122 @@
+@page
+@model OceanCard.Pages.Cards.IndexModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = "卡牌圖鑑";
+}
+
+@functions {
+    string ElementClass(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "el-shallow",
+        OceanElement.Reef    => "el-reef",
+        OceanElement.Current => "el-current",
+        OceanElement.DeepSea => "el-deepsea",
+        OceanElement.Abyss   => "el-abyss",
+        _ => "el-deepsea"
+    };
+    string ElementIcon(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "🐚",
+        OceanElement.Reef    => "🪸",
+        OceanElement.Current => "🌊",
+        OceanElement.DeepSea => "🦈",
+        OceanElement.Abyss   => "🐙",
+        _ => "🐟"
+    };
+    string ElementName(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
+    string RarityClass(Rarity r) => r switch
+    {
+        Rarity.Common    => "rar-common",
+        Rarity.Rare      => "rar-rare",
+        Rarity.Epic      => "rar-epic",
+        Rarity.Legendary => "rar-legendary",
+        _ => "rar-common"
+    };
+    string RarityName(Rarity r) => r switch
+    {
+        Rarity.Common    => "普通",
+        Rarity.Rare      => "稀有",
+        Rarity.Epic      => "史詩",
+        Rarity.Legendary => "傳說",
+        _ => "普通"
+    };
+    // 卡片實際顯示的圖示:優先用卡牌自選的,沒有才用屬性預設
+    string CardIcon(Card c) =>
+        string.IsNullOrWhiteSpace(c.ImagePath) ? ElementIcon(c.Element) : c.ImagePath;
+}
+
+<a class="back-link" href="/Index">← 回首頁</a>
+<h1>卡牌圖鑑</h1>
+
+<form method="get" class="filter-bar">
+    <input type="text" name="Keyword" value="@Model.Keyword"
+           placeholder="搜尋卡名…" class="filter-search" />
+
+    <select name="Element" onchange="this.form.submit()">
+        <option value="">全部屬性</option>
+        @foreach (OceanElement e in Enum.GetValues<OceanElement>())
+        {
+            <option value="@e" selected="@(Model.Element == e)">@ElementName(e)</option>
+        }
+    </select>
+
+    <select name="Rarity" onchange="this.form.submit()">
+        <option value="">全部稀有度</option>
+        @foreach (Rarity r in Enum.GetValues<Rarity>())
+        {
+            <option value="@r" selected="@(Model.Rarity == r)">@RarityName(r)</option>
+        }
+    </select>
+
+    <select name="Sort" onchange="this.form.submit()">
+        <option value="" selected="@(string.IsNullOrEmpty(Model.Sort))">預設排序</option>
+        <option value="cost"   selected="@(Model.Sort == "cost")">依費用</option>
+        <option value="attack" selected="@(Model.Sort == "attack")">依攻擊力</option>
+        <option value="health" selected="@(Model.Sort == "health")">依生命值</option>
+        <option value="name"   selected="@(Model.Sort == "name")">依名稱</option>
+    </select>
+
+    <button type="submit" class="filter-btn">搜尋</button>
+    <a href="/Cards/Index" class="filter-clear">清除</a>
+</form>
+
+@if (Model.Cards.Count == 0)
+{
+    <div class="empty-state">
+        沒有符合條件的卡牌。這片海域很安靜,連魚都游去別處了。
+    </div>
+}
+else
+{
+    <div class="card-grid">
+        @foreach (var card in Model.Cards)
+        {
+            <a class="ocean-card @(card.Rarity == Rarity.Legendary ? "legendary-glow" : "")" href="/Cards/Detail/@card.Id">
+                <div class="card-art @ElementClass(card.Element)">
+                    <span class="icon">@CardIcon(card)</span>
+                </div>
+                <div class="card-body">
+                    <div class="card-name">@card.Name</div>
+                    <div class="card-stats">
+                        <span>費用 @card.Cost</span>
+                        <span>攻 @card.Attack</span>
+                        <span>血 @card.Health</span>
+                    </div>
+                    <div class="card-stats">
+                        <span>@ElementName(card.Element)</span>
+                        <span class="rarity-tag @RarityClass(card.Rarity)">@RarityName(card.Rarity)</span>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+}
