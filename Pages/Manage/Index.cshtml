@@ -1,28 +1,69 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using OceanCard.Models;
-using OceanCard.Repositories;
+@page
+@model OceanCard.Pages.Manage.IndexModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = "卡牌管理";
+}
 
-namespace OceanCard.Pages.Manage;
-
-[Authorize]
-public class IndexModel : PageModel
-{
-    private readonly CardRepository _repo;
-
-    public IndexModel(CardRepository repo) => _repo = repo;
-
-    public List<Card> Cards { get; set; } = new();
-
-    // 從網址查詢字串接收篩選條件
-    [BindProperty(SupportsGet = true)] public string? Keyword { get; set; }
-    [BindProperty(SupportsGet = true)] public OceanElement? Element { get; set; }
-    [BindProperty(SupportsGet = true)] public Rarity? Rarity { get; set; }
-    [BindProperty(SupportsGet = true)] public string? Sort { get; set; }
-
-    public async Task OnGetAsync()
+@functions {
+    string ElementName(OceanElement e) => e switch
     {
-        Cards = await _repo.SearchAsync(Keyword, Element, Rarity, Sort);
-    }
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
+    string RarityName(Rarity r) => r switch
+    {
+        Rarity.Common    => "普通",
+        Rarity.Rare      => "稀有",
+        Rarity.Epic      => "史詩",
+        Rarity.Legendary => "傳說",
+        _ => "普通"
+    };
+}
+
+<a class="back-link" href="/Index">← 回首頁</a>
+<div style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>卡牌管理</h1>
+    <a class="enter-btn" href="/Manage/Edit">+ 新增卡牌</a>
+</div>
+
+@if (Model.Cards.Count == 0)
+{
+    <div class="empty-state">還沒有任何卡牌,點右上角新增一張吧。</div>
+}
+else
+{
+    <table class="manage-table">
+        <thead>
+            <tr>
+                <th>名稱</th><th>屬性</th><th>稀有度</th>
+                <th>費/攻/血</th><th>技能數</th><th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var card in Model.Cards)
+        {
+            <tr>
+                <td>@card.Name</td>
+                <td>@ElementName(card.Element)</td>
+                <td>@RarityName(card.Rarity)</td>
+                <td>@card.Cost / @card.Attack / @card.Health</td>
+                <td>@card.Skills.Count</td>
+                <td class="row-actions">
+                    <a href="/Manage/Edit/@card.Id">編輯</a>
+                    <form method="post" asp-page-handler="Delete"
+                          onsubmit="return confirm('確定刪除「@card.Name」?此動作無法復原。');"
+                          style="display:inline;">
+                        <input type="hidden" name="id" value="@card.Id" />
+                        <button type="submit" class="link-danger">刪除</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }

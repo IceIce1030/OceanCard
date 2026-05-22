@@ -102,4 +102,35 @@ public class DeckRepository
             WHERE DeckId = @deckId AND CardId = @cardId;",
             new { deckId, cardId });
     }
+    // 隨機生成一個牌組:從卡庫隨機挑 count 張不重複的卡
+    public async Task<int> CreateRandomDeckAsync(string name, int count)
+    {
+        using var conn = Connection();
+        conn.Open();
+        using var tx = conn.BeginTransaction();
+
+        // 建牌組
+        var deckId = await conn.ExecuteScalarAsync<int>(@"
+            INSERT INTO Decks (Name) VALUES (@name);
+            SELECT last_insert_rowid();", new { name }, tx);
+
+        // 撈出全部卡牌 Id,洗牌後取前 count 張
+        var allIds = (await conn.QueryAsync<int>(
+            "SELECT Id FROM Cards", transaction: tx)).ToList();
+
+        var rng = new Random();
+        var picked = allIds.OrderBy(_ => rng.Next()).Take(count).ToList();
+
+        // 塞進 DeckCards
+        foreach (var cardId in picked)
+        {
+            await conn.ExecuteAsync(@"
+                INSERT INTO DeckCards (DeckId, CardId)
+                VALUES (@deckId, @cardId);",
+                new { deckId, cardId }, tx);
+        }
+
+        tx.Commit();
+        return deckId;
+    }
 }

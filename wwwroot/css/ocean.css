@@ -809,3 +809,89 @@ body {
     .battle-pick { min-width: 100%; }
     .battle-vs { width: 100%; text-align: center; }
 }
+/* ---------- 牌組系統 ---------- */
+.deck-create {
+    display: flex;
+    gap: 10px;
+    margin: 16px 0;
+}
+.deck-create input {
+    flex: 1;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: #06314d;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.deck-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+.deck-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+.deck-name { font-size: 16px; font-weight: 700; }
+.deck-count { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.deck-row-actions a, .deck-row-actions .link-danger {
+    margin-left: 12px;
+    color: var(--glow-teal);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.deck-editor {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+.deck-col {
+    flex: 1;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+}
+.deck-col h3 { margin-top: 0; }
+.deck-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+}
+.deck-card-row .dim { color: var(--text-muted); font-size: 12px; }
+.in-deck { color: var(--text-muted); font-size: 12px; }
+.mini-btn {
+    background: var(--glow-teal);
+    color: #06212f;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.mini-btn-danger {
+    background: none;
+    border: 1px solid #ff9a9a;
+    color: #ff9a9a;
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .deck-editor { flex-direction: column; }
+}

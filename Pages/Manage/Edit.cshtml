@@ -67,7 +67,10 @@
     <input type="text" name="Icon" id="iconInput" value="@Model.Icon"
            placeholder="點下方挑選,或自己貼一個 emoji" />
     <div class="icon-picker">
-        @foreach (var emoji in new[] { "🦈","🐙","🐡","🐠","🐟","🦀","🦑","🐚","🪸","🌊","🐋","🐬","⭐","🔱","💧" })
+       @foreach (var emoji in new[] {
+            "🦈","🐙","🐡","🐠","🐟","🦀","🦐","🦑","🦞","🐚",
+            "🪸","🪼","🐬","🐳","🐋","🦭","🐢","🦦","🌊","🌀",
+            "🫧","💧","⭐","🔱","🧜","🏮","🦷","👑","🐍","🪱" })
         {
             <button type="button" class="icon-option"
                     onclick="document.getElementById('iconInput').value='@emoji'">@emoji</button>

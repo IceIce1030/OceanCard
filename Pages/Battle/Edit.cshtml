@@ -1,0 +1,74 @@
+@page "{id:int}"
+@model OceanCard.Pages.Decks.EditModel
+@using OceanCard.Models
+@{
+    ViewData["Title"] = "編輯牌組";
+}
+
+@functions {
+    string ElementName(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
+}
+
+<a class="back-link" href="/Decks/Index">← 回我的牌組</a>
+<h1>@Model.Deck!.Name</h1>
+<p style="color:var(--text-muted); font-size:14px;">
+    左邊是卡庫,點「加入」放進牌組;右邊是目前牌組,點「移除」拿掉。
+</p>
+
+@{
+    var deckCardIds = Model.Deck.Cards.Select(c => c.Id).ToHashSet();
+}
+
+<div class="deck-editor">
+    <div class="deck-col">
+        <h3>卡庫</h3>
+        @foreach (var card in Model.AllCards)
+        {
+            <div class="deck-card-row">
+                <span>@card.Name <span class="dim">- @ElementName(card.Element) 攻@card.Attack 血@card.Health</span></span>
+                @if (deckCardIds.Contains(card.Id))
+                {
+                    <span class="in-deck">已在牌組</span>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Add" style="display:inline;">
+                        <input type="hidden" name="id" value="@Model.Deck.Id" />
+                        <input type="hidden" name="cardId" value="@card.Id" />
+                        <button type="submit" class="mini-btn">加入</button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="deck-col">
+        <h3>目前牌組(@Model.Deck.Cards.Count 張)</h3>
+        @if (Model.Deck.Cards.Count == 0)
+        {
+            <div class="empty-state" style="padding:30px 0;">牌組是空的,從左邊挑卡加進來。</div>
+        }
+        else
+        {
+            @foreach (var card in Model.Deck.Cards)
+            {
+                <div class="deck-card-row">
+                    <span>@card.Name <span class="dim">- @ElementName(card.Element) 攻@card.Attack 血@card.Health</span></span>
+                    <form method="post" asp-page-handler="Remove" style="display:inline;">
+                        <input type="hidden" name="id" value="@Model.Deck.Id" />
+                        <input type="hidden" name="cardId" value="@card.Id" />
+                        <button type="submit" class="mini-btn-danger">移除</button>
+                    </form>
+                </div>
+            }
+        }
+    </div>
+</div>
