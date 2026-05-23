@@ -1,0 +1,88 @@
+@page
+@model OceanCard.Pages.DeckBattle.IndexModel
+@{
+    ViewData["Title"] = "牌組對戰";
+}
+
+<a class="back-link" href="/Index">← 回首頁</a>
+<h1>牌組對戰</h1>
+<p style="color:var(--text-muted); font-size:14px;">
+    選兩個牌組,逐張配對對戰,比誰贏的場次多。
+</p>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="login-error">@Model.ErrorMessage</div>
+}
+
+<form method="post" class="battle-form">
+    <div class="battle-pick">
+        <label>A 隊牌組</label>
+        <select name="DeckAId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var d in Model.AllDecks)
+            {
+                <option value="@d.Id" selected="@(Model.DeckAId == d.Id)">
+                    @(d.Name + "(" + d.Cards.Count + " 張)")
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="battle-vs">VS</div>
+
+    <div class="battle-pick">
+        <label>B 隊牌組</label>
+        <select name="DeckBId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var d in Model.AllDecks)
+            {
+                <option value="@d.Id" selected="@(Model.DeckBId == d.Id)">
+                    @(d.Name + "(" + d.Cards.Count + " 張)")
+                </option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="filter-btn">開戰</button>
+</form>
+
+@if (Model.Result != null)
+{
+    <div class="battle-result">
+        <div class="deck-verdict">
+            @{
+                var fw = Model.Result.FinalWinner;
+                var winnerName = fw == 1 ? Model.DeckA!.Name
+                               : fw == 2 ? Model.DeckB!.Name : "";
+            }
+            @if (fw == 0)
+            {
+                <span>平手!兩隊勝場相同。</span>
+            }
+            else
+            {
+                <span>🏆 @winnerName 獲勝!</span>
+            }
+            <div class="score-line">
+                @Model.DeckA!.Name @Model.Result.AWins 勝
+                ｜ @Model.DeckB!.Name @Model.Result.BWins 勝
+                ｜ 平手 @Model.Result.Draws
+            </div>
+        </div>
+
+        <h3>逐場戰報</h3>
+        <div class="match-list">
+            @foreach (var m in Model.Result.Matches)
+            {
+                <div class="match-row match-win-@m.Winner">
+                    <span class="match-round">第 @m.Round 場</span>
+                    <span class="match-cards">
+                        @(m.CardA?.Name ?? "—") vs @(m.CardB?.Name ?? "—")
+                    </span>
+                    <span class="match-outcome">@m.Outcome</span>
+                </div>
+            }
+        </div>
+    </div>
+}

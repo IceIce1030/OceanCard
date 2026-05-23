@@ -895,3 +895,54 @@ body {
 @media (max-width: 480px) {
     .deck-editor { flex-direction: column; }
 }
+/* ---------- 牌組對戰 ---------- */
+.deck-verdict {
+    text-align: center;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgba(78,205,196,0.14);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+.deck-verdict .score-line {
+    margin-top: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+.match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.match-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.04);
+    font-size: 13px;
+    border-left: 3px solid transparent;
+}
+.match-win-1 { border-left-color: var(--glow-teal); }
+.match-win-2 { border-left-color: #ff9a9a; }
+.match-win-0 { border-left-color: var(--text-muted); }
+.match-round {
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.match-cards {
+    flex: 1;
+    font-weight: 700;
+}
+.match-outcome {
+    color: var(--text-muted);
+    text-align: right;
+}
+
+@media (max-width: 480px) {
+    .match-row { flex-wrap: wrap; gap: 4px 10px; }
+    .match-outcome { text-align: left; width: 100%; }
+}

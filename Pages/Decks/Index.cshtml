@@ -1,5 +1,5 @@
 @page
-@model OceanCard.Pages.Battle.IndexModel
+@model OceanCard.Pages.Decks.IndexModel
 @{
     ViewData["Title"] = "我的牌組";
 }
@@ -10,12 +10,13 @@
 <form method="post" asp-page-handler="Create" class="deck-create">
     <input type="text" name="NewDeckName" placeholder="新牌組名稱…" />
     <button type="submit" class="filter-btn">建立牌組</button>
-    <form method="post" asp-page-handler="Random" style="margin-bottom:16px;">
-      <button type="submit" class="filter-btn"
-              style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">
-          🎲 隨機生成 30 張牌組
-      </button>
-  </form>
+</form>
+
+<form method="post" asp-page-handler="Random" style="margin-bottom:16px;">
+    <button type="submit" class="filter-btn"
+            style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">
+        🎲 隨機生成 30 張牌組
+    </button>
 </form>
 
 @if (Model.Decks.Count == 0)
