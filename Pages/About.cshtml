@@ -1,0 +1,164 @@
+@page
+@model OceanCard.Pages.AboutModel
+@{
+    ViewData["Title"] = "關於";
+}
+
+<a class="back-link" href="/Index">← 回首頁</a>
+<h1>關於 OceanCard</h1>
+
+<div class="octo-zone">
+    <div class="octo-bubble" id="octoBubble"></div>
+    <div class="octopus" id="octopus" onclick="pokeOcto()">
+        <div class="octo-head">
+            <div class="octo-eye left"><span class="octo-pupil"></span></div>
+            <div class="octo-eye right"><span class="octo-pupil"></span></div>
+        </div>
+        <div class="octo-legs">
+            <span class="leg"></span><span class="leg"></span>
+            <span class="leg"></span><span class="leg"></span>
+            <span class="leg"></span><span class="leg"></span>
+            <span class="leg"></span><span class="leg"></span>
+        </div>
+    </div>
+    <div class="octo-hint">（這隻章魚看起來很閒,戳戳看)</div>
+</div>
+
+<div class="about-block">
+    <h3>🌊 這個專案是什麼</h3>
+    <p>
+        OceanCard 是一個海底世界主題的卡牌系統。一開始,它的人生目標只是
+        「讓某人練習一下 SQLite」——結果某人一路加功能加到停不下來,
+        於是它意外地長成了一個有圖鑑、有對戰、有牌組系統的東西。
+    </p>
+    <p>
+        它能做的事:瀏覽 36 張卡、依屬性篩選、管理卡牌、算屬性相剋、
+        多回合對戰、組牌、牌組對打。它<strong>不能</strong>做的事:
+        讓技能真的發動(牠們還在練)、端出第 37 張卡(那張游走了)、
+        以及解釋為什麼開發過程中 namespace 出過那麼多次錯。
+    </p>
+</div>
+
+<div class="about-block">
+    <h3>🐙 關於作者</h3>
+
+    <div class="author-card">
+        <div class="author-card-art">
+            <div class="dev-avatar">
+                <div class="dev-headphone"></div>
+                <div class="dev-hair"></div>
+                <div class="dev-face">
+                    <div class="dev-eye left"></div>
+                    <div class="dev-eye right"></div>
+                    <div class="dev-bag left"></div>
+                    <div class="dev-bag right"></div>
+                    <div class="dev-mouth"></div>
+                </div>
+                <div class="dev-body"></div>
+            </div>
+        </div>
+        <div class="author-card-body">
+            <div class="author-name">（你的名字 / 或「不願具名的開發者」）</div>
+            <div class="author-title">傳說稀有度 ・ 鍵盤屬性</div>
+
+            <div class="author-stats">
+                <span class="author-stat">☕ 咖啡因 99</span>
+                <span class="author-stat">🐛 抓蟲 76</span>
+                <span class="author-stat">😴 睡眠 12</span>
+            </div>
+
+            <div class="author-skill">
+                <div class="author-skill-name">技能・複製貼上</div>
+                <div class="author-skill-desc">能瞬間移動大量程式碼,偶爾連 bug 一起搬。</div>
+            </div>
+            <div class="author-skill">
+                <div class="author-skill-name">技能・盲目自信</div>
+                <div class="author-skill-desc">「這個功能下週就好」——已持續發動三個月。</div>
+            </div>
+            <div class="author-skill">
+                <div class="author-skill-name">被動・namespace 恐懼</div>
+                <div class="author-skill-desc">經歷過某次慘案後,每次建檔都會默念三次資料夾名稱。</div>
+            </div>
+        </div>
+    </div>
+
+    <p class="author-bio">
+        本作由上面這位製作。平常是
+        <strong>（你的身分,例如「在學學生」/「轉職中的工程師」/「很閒的人」）</strong>,
+        這是他/她的 <strong>（第幾個?）</strong> 個練習專案。
+        製作期間學會了 SQLite、Dapper、多對多關聯,以及一個更重要的道理:
+        「整個檔案覆蓋之前,記得先 <code>Cmd+A</code> 全選。」
+    </p>
+    <p style="color:var(--text-muted); font-size:13px;">
+        ※ 卡片上括號內容請作者自行填寫,或永遠保持神祕。
+    </p>
+</div>
+
+<div class="about-block">
+    <h3>💡 遊戲靈感</h3>
+    <p>
+        卡牌的「屬性相剋、技能特色」概念,參考了市面上那些做得很成功、
+        玩家很多、而且有完整美術團隊的卡牌遊戲。OceanCard 跟它們唯一的差別是:
+        玩家數量、預算、美術、音效、平衡性,以及卡牌數量。其他都一樣。
+    </p>
+    <p>
+        至於為什麼是「海底世界」——因為海洋生態豐富、視覺元素多、適合做屬性區分,
+        而且海裡的生物不會抗議自己被畫得很醜。
+    </p>
+</div>
+
+<div class="about-block">
+    <h3>🛠️ 技術細節(給好奇的人)</h3>
+    <p>
+        ASP.NET Core Razor Pages + Dapper + SQLite,在一台 Mac 上長出來的。
+        前端沒有用任何框架,純 HTML/CSS/一點點 JavaScript——
+        因為作者想先把後端搞懂,結果不小心把前端也順便做了。
+    </p>
+</div>
+
+<div class="home-footer">
+    OceanCard — 一個用來練習 SQLite 的專案,不小心長大了。
+</div>
+
+<script>
+    // 章魚的台詞(打破第四面牆自嘲風)
+    var octoLines = [
+        "嗨,我是用 CSS 畫的。連我自己都不太確定這算不算一隻章魚。",
+        "你又在 debug 喔?加油,我會在這裡飄著等你。",
+        "我有八隻腳,但從來沒數過。開發者也沒空幫我數。",
+        "這個遊戲的技能還不會發動。我的腳也只是裝飾,我們一樣。",
+        "別戳那麼用力,我可是傳說稀有度旁邊唯一的吉祥物。",
+        "聽說第 37 張卡游走了。其實……是我放牠走的。噓。",
+        "開發者說『這隻章魚五分鐘就畫好』。那是兩小時前的事。",
+        "你已經戳我很多下了。我很閒,但沒這麼閒。",
+        "我存在的唯一意義,就是讓這個 About 頁不要太無聊。",
+        "namespace 又錯了嗎?深呼吸。我陪你。"
+    ];
+    var octoCount = 0;
+
+    function pokeOcto() {
+        var octo = document.getElementById('octopus');
+        var bubble = document.getElementById('octoBubble');
+
+        octo.classList.remove('poked');
+        void octo.offsetWidth;
+        octo.classList.add('poked');
+
+        octoCount++;
+
+        var line;
+        if (octoCount === 10) {
+            line = "你真的戳了我十下。我把這件事寫進心裡了。";
+        } else {
+            line = octoLines[Math.floor(Math.random() * octoLines.length)];
+        }
+
+        bubble.textContent = line;
+        bubble.classList.add('show');
+
+        clearTimeout(window._octoTimer);
+        window._octoTimer = setTimeout(function () {
+            bubble.classList.remove('show');
+        }, 4000);
+    }
+</script>

@@ -1044,3 +1044,510 @@ body {
     }
     .nav-links a { padding: 5px 8px; font-size: 13px; }
 }
+/* ---------- 登入頁手機微調 ---------- */
+@media (max-width: 420px) {
+    .login-box {
+        width: 90%;
+        padding: 32px 22px;
+    }
+    .login-box .brand { font-size: 22px; }
+}
+/* ---------- 對戰回合/戰報淡入 ---------- */
+.match-row {
+    opacity: 0;
+    animation: match-fade-in 0.4s ease-out forwards;
+}
+@keyframes match-fade-in {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+.match-row:nth-child(1)  { animation-delay: 0.05s; }
+.match-row:nth-child(2)  { animation-delay: 0.10s; }
+.match-row:nth-child(3)  { animation-delay: 0.15s; }
+.match-row:nth-child(4)  { animation-delay: 0.20s; }
+.match-row:nth-child(5)  { animation-delay: 0.25s; }
+.match-row:nth-child(6)  { animation-delay: 0.30s; }
+.match-row:nth-child(7)  { animation-delay: 0.35s; }
+.match-row:nth-child(8)  { animation-delay: 0.40s; }
+.match-row:nth-child(9)  { animation-delay: 0.45s; }
+.match-row:nth-child(10) { animation-delay: 0.50s; }
+.match-row:nth-child(n+11) { animation-delay: 0.55s; }
+
+/* ============================================
+   首頁區塊
+   ============================================ */
+.home-section {
+    margin: 36px auto 0;
+    max-width: 760px;
+}
+.home-section h3 {
+    margin-bottom: 14px;
+}
+
+/* 海底情報清單 */
+.fact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.fact-list li {
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--glow-teal);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+.fact-list li strong { color: var(--glow-teal); }
+
+/* 功能卡片 */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 14px;
+}
+.feature-card {
+    display: block;
+    text-decoration: none;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px;
+    transition: transform 0.15s, box-shadow 0.2s, border-color 0.2s;
+}
+.feature-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(120,230,220,0.4);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.4);
+}
+.feature-icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+.feature-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--glow-teal);
+    margin-bottom: 6px;
+}
+.feature-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+}
+
+/* 首頁頁尾 */
+.home-footer {
+    margin: 44px auto 0;
+    max-width: 760px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+@media (max-width: 480px) {
+    .feature-grid { grid-template-columns: 1fr; }
+}
+/* ---------- 關於頁 ---------- */
+.about-block {
+    max-width: 720px;
+    margin: 24px auto 0;
+    background: var(--panel-bg);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px 24px;
+}
+.about-block h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+.about-block p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin: 10px 0;
+}
+.about-block strong { color: var(--glow-teal); }
+.about-block code {
+    background: #06314d;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--glow-teal);
+}
+/* ---------- 關於頁・作者卡 ---------- */
+.author-card {
+    display: flex;
+    gap: 16px;
+    background: linear-gradient(135deg, #0f4c75, #06314d);
+    border: 1px solid rgba(233,185,73,0.4);   /* 傳說金邊 */
+    border-radius: 14px;
+    padding: 18px;
+    margin: 14px 0;
+    animation: author-pop 0.5s ease-out;
+    /* 常駐金光,呼應「傳說稀有度」 */
+    box-shadow: 0 0 16px rgba(233,185,73,0.25);
+}
+@keyframes author-pop {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.author-card-art {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 12px;
+    background: linear-gradient(160deg, #4f5dd6, #0a3d62);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.author-emoji {
+    font-size: 52px;
+    display: inline-block;
+    /* 輕輕浮動,像在水裡 */
+    animation: author-float 3.5s ease-in-out infinite;
+}
+@keyframes author-float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-8px) rotate(3deg); }
+}
+
+.author-card-body { flex: 1; }
+.author-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-light);
+}
+.author-title {
+    font-size: 12px;
+    color: #e9b949;
+    margin: 2px 0 10px;
+}
+
+.author-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.author-stat {
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 12px;
+    color: var(--text-light);
+}
+
+.author-skill {
+    border-left: 3px solid var(--glow-teal);
+    padding: 4px 0 4px 12px;
+    margin: 8px 0;
+    transition: transform 0.15s, border-color 0.15s;
+}
+.author-skill:hover {
+    transform: translateX(4px);
+    border-left-color: #e9b949;
+}
+.author-skill-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--glow-teal);
+}
+.author-skill-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 2px;
+}
+
+.author-bio {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-light);
+}
+
+@media (max-width: 480px) {
+    .author-card { flex-direction: column; align-items: center; text-align: center; }
+    .author-stats { justify-content: center; }
+    .author-skill { text-align: left; }
+}
+/* ============================================
+   About 頁・互動章魚(可愛版)
+   ============================================ */
+.octo-zone {
+    max-width: 720px;
+    margin: 10px auto 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* 章魚本體 */
+.octopus {
+    position: relative;
+    width: 150px;
+    cursor: pointer;
+    animation: octo-float 4s ease-in-out infinite;
+    transition: transform 0.15s;
+}
+.octopus:hover { transform: scale(1.06); }
+@keyframes octo-float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-12px); }
+}
+
+/* 頭 —— 圓潤水滴形 */
+.octo-head {
+    width: 110px;
+    height: 96px;
+    margin: 0 auto;
+    background: radial-gradient(circle at 38% 30%, #d98fe8, #b06fd6 55%, #9457bd);
+    border-radius: 50% 50% 48% 48%;
+    position: relative;
+    box-shadow: 0 8px 20px rgba(123,63,158,0.45),
+                inset -6px -8px 14px rgba(90,47,120,0.5);
+}
+/* 頭頂高光 */
+.octo-head::before {
+    content: "";
+    position: absolute;
+    top: 14px; left: 22px;
+    width: 26px; height: 18px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 50%;
+    filter: blur(2px);
+}
+
+/* 眼睛 —— 大而亮 */
+.octo-eye {
+    position: absolute;
+    top: 40px;
+    width: 30px;
+    height: 32px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 -3px 5px rgba(0,0,0,0.08);
+}
+.octo-eye.left  { left: 18px; }
+.octo-eye.right { right: 18px; }
+.octo-pupil {
+    width: 16px;
+    height: 16px;
+    background: #2a1a3e;
+    border-radius: 50%;
+    position: relative;
+    animation: octo-blink 5s infinite;
+}
+/* 瞳孔高光 */
+.octo-pupil::after {
+    content: "";
+    position: absolute;
+    top: 3px; right: 3px;
+    width: 5px; height: 5px;
+    background: #fff;
+    border-radius: 50%;
+}
+@keyframes octo-blink {
+    0%, 92%, 100% { transform: scaleY(1); }
+    95%           { transform: scaleY(0.1); }
+}
+
+/* 腮紅 */
+.octo-head::after {
+    content: "";
+    position: absolute;
+    top: 58px; left: 8px;
+    width: 16px; height: 10px;
+    background: rgba(255,150,180,0.55);
+    border-radius: 50%;
+    box-shadow: 78px 0 0 rgba(255,150,180,0.55);
+    filter: blur(1px);
+}
+
+/* 八隻腳 —— 細而捲 */
+.octo-legs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: -8px;
+}
+.leg {
+    width: 14px;
+    height: 40px;
+    background: linear-gradient(180deg, #b06fd6, #8a4fae);
+    border-radius: 0 0 50% 50%;
+    transform-origin: top center;
+    animation: leg-wave 2.6s ease-in-out infinite;
+}
+.leg:nth-child(1) { animation-delay: 0s;    height: 34px; }
+.leg:nth-child(2) { animation-delay: 0.12s; height: 40px; }
+.leg:nth-child(3) { animation-delay: 0.24s; height: 44px; }
+.leg:nth-child(4) { animation-delay: 0.36s; height: 40px; }
+.leg:nth-child(5) { animation-delay: 0.48s; height: 40px; }
+.leg:nth-child(6) { animation-delay: 0.36s; height: 44px; }
+.leg:nth-child(7) { animation-delay: 0.24s; height: 40px; }
+.leg:nth-child(8) { animation-delay: 0.12s; height: 34px; }
+@keyframes leg-wave {
+    0%, 100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
+}
+
+/* 點擊時的「嚇一跳」抖動 */
+.octopus.poked {
+    animation: octo-shake 0.5s ease-in-out;
+}
+@keyframes octo-shake {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    20% { transform: translateY(-10px) rotate(-9deg) scale(1.1); }
+    40% { transform: translateY(0) rotate(9deg) scale(1.1); }
+    60% { transform: translateY(-5px) rotate(-5deg); }
+    80% { transform: translateY(0) rotate(3deg); }
+}
+
+/* 對話泡泡 */
+.octo-bubble {
+    max-width: 280px;
+    background: #fff;
+    color: #2a1a3e;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 0;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s, transform 0.2s;
+    text-align: center;
+    position: relative;
+}
+.octo-bubble.show {
+    opacity: 1;
+    transform: scale(1);
+    padding: 10px 16px;
+}
+/* 泡泡下方小三角 */
+.octo-bubble.show::after {
+    content: "";
+    position: absolute;
+    bottom: -7px; left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #fff;
+}
+
+.octo-hint {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+/* ---------- 關於頁・作者小人(CSS 角色) ---------- */
+.dev-avatar {
+    position: relative;
+    width: 96px;
+    height: 96px;
+}
+
+/* 頭髮 */
+.dev-hair {
+    position: absolute;
+    top: 8px; left: 22px;
+    width: 52px; height: 34px;
+    background: #2e2a3a;
+    border-radius: 26px 26px 0 0;
+    z-index: 2;
+}
+
+/* 臉 */
+.dev-face {
+    position: absolute;
+    top: 20px; left: 24px;
+    width: 48px; height: 46px;
+    background: #f3c9a8;
+    border-radius: 14px 14px 18px 18px;
+    z-index: 1;
+}
+
+/* 眼睛 */
+.dev-eye {
+    position: absolute;
+    top: 18px;
+    width: 7px; height: 7px;
+    background: #2e2a3a;
+    border-radius: 50%;
+}
+.dev-eye.left  { left: 11px; }
+.dev-eye.right { right: 11px; }
+
+/* 黑眼圈(呼應睡眠 12) */
+.dev-bag {
+    position: absolute;
+    top: 26px;
+    width: 10px; height: 5px;
+    background: rgba(120,100,140,0.45);
+    border-radius: 0 0 6px 6px;
+}
+.dev-bag.left  { left: 9px; }
+.dev-bag.right { right: 9px; }
+
+/* 嘴(微微的、有點累的線) */
+.dev-mouth {
+    position: absolute;
+    bottom: 9px; left: 50%;
+    transform: translateX(-50%);
+    width: 14px; height: 6px;
+    border-bottom: 2px solid #9c6b4a;
+    border-radius: 0 0 8px 8px;
+}
+
+/* 耳機 */
+.dev-headphone {
+    position: absolute;
+    top: 4px; left: 18px;
+    width: 60px; height: 44px;
+    border: 5px solid #4ecdc4;
+    border-bottom: none;
+    border-radius: 30px 30px 0 0;
+    z-index: 3;
+}
+.dev-headphone::before,
+.dev-headphone::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    width: 13px; height: 20px;
+    background: #4ecdc4;
+    border-radius: 6px;
+}
+.dev-headphone::before { left: -9px; }
+.dev-headphone::after  { right: -9px; }
+
+/* 身體(肩膀) */
+.dev-body {
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 76px; height: 30px;
+    background: linear-gradient(180deg, #4f5dd6, #3a45a8);
+    border-radius: 22px 22px 0 0;
+}
+
+/* 整隻小人輕輕呼吸 */
+.dev-avatar {
+    animation: dev-breathe 3.5s ease-in-out infinite;
+}
+@keyframes dev-breathe {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-4px); }
+}

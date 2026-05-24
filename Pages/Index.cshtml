@@ -3,12 +3,59 @@
 @{
     ViewData["Title"] = "首頁";
 }
+
 <div class="home-hero">
     <span class="brand">OCEANCARD</span>
     <h1>歡迎來到海底世界</h1>
-    <p>據說最深的海溝裡,卡牌會自己對戰。沒人證實過,因為去看的人都沒回來。</p>
+    <p>
+        一個關於海洋生物互相毆打的卡牌系統。
+        據說最深的海溝裡,卡牌會自己對戰——沒人證實過,因為去看的人都忙著 debug。
+    </p>
     <a class="enter-btn" href="/Cards/Index">翻閱卡牌圖鑑</a>
-    <a class="enter-btn" href="/Manage/Index" style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">卡牌管理後台</a>
-    <a class="enter-btn" href="/Battle/Index" style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">對戰試算</a>
-    <a class="enter-btn" href="/DeckBattle/Index" style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">牌組對戰</a>
+</div>
+
+<div class="home-section">
+    <h3>📋 海底情報(沒什麼用,但很真實)</h3>
+    <ul class="fact-list">
+        <li>本遊戲共 <strong>36 張卡</strong>。第 37 張畫到一半就游走了,至今未歸。</li>
+        <li>五種屬性互相剋制,設計者花了 <strong>3 分鐘</strong>排相剋表,然後花 3 小時 debug。</li>
+        <li>卡牌的技能目前<strong>只是文字</strong>,還不會真的發動——牠們也還在練習。</li>
+        <li>「隨機生成牌組」功能的存在,純粹是因為開發者懶得一張一張選。</li>
+        <li>這是一個練習專案。它知道自己是,而且坦然接受。</li>
+    </ul>
+</div>
+
+<div class="home-section">
+    <h3>🧭 你可以去這些地方</h3>
+    <div class="feature-grid">
+        <a class="feature-card" href="/Cards/Index">
+            <div class="feature-icon">📖</div>
+            <div class="feature-name">卡牌圖鑑</div>
+            <div class="feature-desc">36 張卡的個人資料。每張都有牠的故事,大多是抱怨。</div>
+        </a>
+        <a class="feature-card" href="/Manage/Index">
+            <div class="feature-icon">🛠️</div>
+            <div class="feature-name">卡牌管理</div>
+            <div class="feature-desc">新增、編輯、刪除卡牌。權力很大,請謹慎使用。</div>
+        </a>
+        <a class="feature-card" href="/Battle/Index">
+            <div class="feature-icon">⚔️</div>
+            <div class="feature-name">對戰試算</div>
+            <div class="feature-desc">兩張卡多回合互毆,看誰先撐不住。和平主義者勿入。</div>
+        </a>
+        <a class="feature-card" href="/Decks/Index">
+            <div class="feature-icon">🗂️</div>
+            <div class="feature-name">我的牌組</div>
+            <div class="feature-desc">把卡牌編成一隊。或按一下隨機生成,假裝你有在思考。</div>
+        </a>
+        <a class="feature-card" href="/DeckBattle/Index">
+            <div class="feature-icon">🏆</div>
+            <div class="feature-name">牌組對戰</div>
+            <div class="feature-desc">一整隊打另一整隊。戰報很長,但你會看完的,對吧?</div>
+        </a>
+    </div>
+</div>
+
+<div class="home-footer">
+    OceanCard — 一個用來練習 SQLite 的專案,不小心長大了。
 </div>

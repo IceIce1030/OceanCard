@@ -37,6 +37,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();   // 第一階段已收藏
+
+app.UseStatusCodePagesWithReExecute("/NotFound");
 app.UseStaticFiles();
 app.UseRouting();
 

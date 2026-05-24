@@ -30,9 +30,14 @@
 <div class="deck-editor">
     <div class="deck-col">
         <h3>卡庫</h3>
+        <input type="text" id="cardSearch" placeholder="搜尋卡名…"
+               onkeyup="filterCards()"
+               style="width:100%; padding:8px; margin-bottom:10px; border-radius:6px;
+                      border:1px solid rgba(255,255,255,0.2); background:#06314d;
+                      color:var(--text-light); font-size:13px;" />
         @foreach (var card in Model.AllCards)
         {
-            <div class="deck-card-row">
+           <div class="deck-card-row card-item" data-name="@card.Name">
                 <span>@card.Name <span class="dim">- @ElementName(card.Element) 攻@card.Attack 血@card.Health</span></span>
                 @if (deckCardIds.Contains(card.Id))
                 {
@@ -60,8 +65,8 @@
         {
             @foreach (var card in Model.Deck.Cards)
             {
-                <div class="deck-card-row">
-                    <span>@card.Name <span class="dim">- @ElementName(card.Element) 攻@card.Attack 血@card.Health</span></span>
+                <div class="deck-card-row card-item" data-name="@card.Name">
+                     <span>@card.Name <span class="dim">- @ElementName(card.Element) 攻@card.Attack 血@card.Health</span></span>
                     <form method="post" asp-page-handler="Remove" style="display:inline;">
                         <input type="hidden" name="id" value="@Model.Deck.Id" />
                         <input type="hidden" name="cardId" value="@card.Id" />
@@ -72,3 +77,12 @@
         }
     </div>
 </div>
+<script>
+    function filterCards() {
+        var kw = document.getElementById('cardSearch').value.toLowerCase();
+        document.querySelectorAll('.card-item').forEach(function (row) {
+            var name = (row.getAttribute('data-name') || '').toLowerCase();
+            row.style.display = name.indexOf(kw) >= 0 ? '' : 'none';
+        });
+    }
+</script>
