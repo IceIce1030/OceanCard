@@ -946,3 +946,101 @@ body {
     .match-row { flex-wrap: wrap; gap: 4px 10px; }
     .match-outcome { text-align: left; width: 100%; }
 }
+/* ============================================
+   頂端導覽列 + 特效
+   ============================================ */
+.topnav {
+    position: sticky;       /* 吸附頂端,捲動時跟著 */
+    top: 0;
+    z-index: 50;
+    background: rgba(8, 42, 66, 0.72);
+    backdrop-filter: blur(12px);   /* 毛玻璃 */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(120, 230, 220, 0.18);
+}
+.nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav-brand {
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--glow-teal);
+    text-decoration: none;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+    white-space: nowrap;
+}
+.nav-links {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.nav-links a {
+    position: relative;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-light); }
+
+/* 特效:hover 時底部青光從中間展開 */
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 0;
+    height: 2px;
+    background: var(--glow-teal);
+    box-shadow: 0 0 8px var(--glow-teal);
+    transition: width 0.25s ease, left 0.25s ease;
+}
+.nav-links a:hover::after {
+    width: 70%;
+    left: 15%;
+}
+
+/* 目前所在頁:高亮 + 常駐底線 */
+.nav-links a.active {
+    color: var(--glow-teal);
+    background: rgba(78, 205, 196, 0.1);
+}
+.nav-links a.active::after {
+    width: 70%;
+    left: 15%;
+}
+
+/* 登出:紅色調,跟其他連結區隔 */
+.nav-links a.nav-logout {
+    color: #ff9a9a;
+    margin-left: 6px;
+}
+.nav-links a.nav-logout:hover { color: #ffc4c4; }
+.nav-links a.nav-logout::after { background: #ff9a9a; box-shadow: 0 0 8px #ff9a9a; }
+
+/* 手機:導覽列縮排、字變小、可橫向捲動 */
+@media (max-width: 600px) {
+    .nav-inner {
+        height: auto;
+        padding: 8px 12px;
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
+    .nav-links {
+        width: 100%;
+        gap: 2px;
+        overflow-x: auto;
+    }
+    .nav-links a { padding: 5px 8px; font-size: 13px; }
+}

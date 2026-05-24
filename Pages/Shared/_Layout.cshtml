@@ -23,7 +23,20 @@
             <span class="fish" style="left:78%; animation-delay:7s;">🐟</span>
         </div>
     </div>
-
+  <nav class="topnav">
+        <div class="nav-inner">
+            <a class="nav-brand" href="/Index">🌊 OCEANCARD</a>
+            <div class="nav-links">
+                <a href="/Index">首頁</a>
+                <a href="/Cards/Index">卡牌圖鑑</a>
+                <a href="/Manage/Index">卡牌管理</a>
+                <a href="/Battle/Index">對戰試算</a>
+                <a href="/Decks/Index">我的牌組</a>
+                <a href="/DeckBattle/Index">牌組對戰</a>
+                <a href="/Logout" class="nav-logout">登出</a>
+            </div>
+        </div>
+    </nav>
     <div class="page">
         @RenderBody()
     </div>
@@ -37,6 +50,22 @@
                 var x = (e.clientX / window.innerWidth - 0.5) * 18;
                 var y = (e.clientY / window.innerHeight - 0.5) * 18;
                 layer.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+            });
+        })();
+    </script>
+    <script>
+        // 依目前網址,把對應的導覽連結標記為 active
+        (function () {
+            var path = window.location.pathname.toLowerCase();
+            document.querySelectorAll('.nav-links a').forEach(function (a) {
+                var href = a.getAttribute('href').toLowerCase();
+                if (href !== '/logout' && path.indexOf(href.replace('/index','')) === 0
+                    && href !== '/index') {
+                    a.classList.add('active');
+                }
+                if (href === '/index' && (path === '/' || path === '/index')) {
+                    a.classList.add('active');
+                }
             });
         })();
     </script>
