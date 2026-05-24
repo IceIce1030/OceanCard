@@ -1,47 +1,106 @@
 @page
 @model OceanCard.Pages.Battle.IndexModel
+@using OceanCard.Models
 @{
-    ViewData["Title"] = "我的牌組";
+    ViewData["Title"] = "對戰試算";
+}
+
+@functions {
+    string ElementName(OceanElement e) => e switch
+    {
+        OceanElement.Shallow => "淺灘",
+        OceanElement.Reef    => "珊瑚礁",
+        OceanElement.Current => "洋流",
+        OceanElement.DeepSea => "深海",
+        OceanElement.Abyss   => "深淵",
+        _ => "未知"
+    };
 }
 
 <a class="back-link" href="/Index">← 回首頁</a>
-<h1>我的牌組</h1>
+<h1>對戰試算</h1>
+<p style="color:var(--text-muted); font-size:14px;">
+    選兩張卡,讓牠們多回合輪流對戰,看誰先撐不住。技能目前不參與計算。
+</p>
 
-<form method="post" asp-page-handler="Create" class="deck-create">
-    <input type="text" name="NewDeckName" placeholder="新牌組名稱…" />
-    <button type="submit" class="filter-btn">建立牌組</button>
-    <form method="post" asp-page-handler="Random" style="margin-bottom:16px;">
-      <button type="submit" class="filter-btn"
-              style="background:transparent; border:1px solid var(--glow-teal); color:var(--glow-teal);">
-          🎲 隨機生成 30 張牌組
-      </button>
-  </form>
+@if (Model.ErrorMessage != null)
+{
+    <div class="login-error">@Model.ErrorMessage</div>
+}
+
+<form method="post" class="battle-form">
+    <div class="battle-pick">
+        <label>A 隊卡牌</label>
+        <select name="AttackerId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var c in Model.AllCards)
+            {
+                <option value="@c.Id" selected="@(Model.AttackerId == c.Id)">
+                    @(c.Name + " - " + ElementName(c.Element) + " 攻" + c.Attack + " 血" + c.Health)
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="battle-vs">VS</div>
+
+    <div class="battle-pick">
+        <label>B 隊卡牌</label>
+        <select name="DefenderId">
+            <option value="0">— 請選擇 —</option>
+            @foreach (var c in Model.AllCards)
+            {
+                <option value="@c.Id" selected="@(Model.DefenderId == c.Id)">
+                    @(c.Name + " - " + ElementName(c.Element) + " 攻" + c.Attack + " 血" + c.Health)
+                </option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="filter-btn">開戰</button>
 </form>
 
-@if (Model.Decks.Count == 0)
+@if (Model.Result != null)
 {
-    <div class="empty-state">還沒有牌組。在上面取個名字,建一套吧。</div>
-}
-else
-{
-    <div class="deck-list">
-        @foreach (var deck in Model.Decks)
-        {
-            <div class="deck-row">
-                <div>
-                    <div class="deck-name">@deck.Name</div>
-                    <div class="deck-count">@deck.Cards.Count 張卡</div>
-                </div>
-                <div class="deck-row-actions">
-                    <a href="/Decks/Edit/@deck.Id">編輯</a>
-                    <form method="post" asp-page-handler="Delete"
-                          onsubmit="return confirm('確定刪除牌組「@deck.Name」?');"
-                          style="display:inline;">
-                        <input type="hidden" name="id" value="@deck.Id" />
-                        <button type="submit" class="link-danger">刪除</button>
-                    </form>
-                </div>
+    <div class="battle-result">
+        <div class="deck-verdict">
+            @if (string.IsNullOrEmpty(Model.Result.WinnerName))
+            {
+                <span>平手!雙方勢均力敵。</span>
+            }
+            else
+            {
+                <span>🏆 @Model.Result.WinnerName 獲勝!</span>
+            }
+            <div class="score-line">
+                @if (Model.Result.ReachedLimit)
+                {
+                    <span>打滿 @Model.Result.Rounds.Count 回合仍未分死活,比剩餘生命定勝負</span>
+                }
+                else
+                {
+                    <span>第 @Model.Result.Rounds.Count 回合分出勝負</span>
+                }
+                ｜ @Model.CardA!.Name 剩 @Model.Result.CardAHealthFinal 血
+                ｜ @Model.CardB!.Name 剩 @Model.Result.CardBHealthFinal 血
             </div>
-        }
+        </div>
+
+        <h3>回合紀錄</h3>
+        <div class="match-list">
+            @foreach (var r in Model.Result.Rounds)
+            {
+                <div class="match-row">
+                    <span class="match-round">第 @r.Round 回合</span>
+                    <span class="match-cards">
+                        @r.AttackerName → @r.DefenderName
+                    </span>
+                    <span class="match-outcome">
+                        <span class="relation">@r.Relation</span>
+                        造成 @r.Damage 傷害,@r.DefenderName 剩 @r.DefenderHealthAfter 血
+                    </span>
+                </div>
+            }
+        </div>
     </div>
 }

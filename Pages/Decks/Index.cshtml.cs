@@ -42,7 +42,7 @@ public class IndexModel : PageModel
     {
         var existing = await _repo.GetAllAsync();
         var name = $"隨機牌組 #{existing.Count + 1}";
-        var id = await _repo.CreateRandomDeckAsync(name, 30);
+        var id = await _repo.CreateRandomDeckAsync(name, 15);
         return RedirectToPage("Edit", new { id });
     }
 }
